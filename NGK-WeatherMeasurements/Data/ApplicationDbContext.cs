@@ -21,5 +21,8 @@ namespace NGK_WeatherMeasurements.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 
+
+
 }
     
+

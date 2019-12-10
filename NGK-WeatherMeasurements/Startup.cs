@@ -16,7 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using NGK_WeatherMeasurements.Data;
 using Microsoft.EntityFrameworkCore;
 using NGK_WeatherMeasurements.Hub;
-
+using NGK_WeatherMeasurements.Models;
 
 
 namespace NGK_WeatherMeasurements
@@ -39,6 +39,10 @@ namespace NGK_WeatherMeasurements
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "Jwt";
@@ -52,13 +56,22 @@ namespace NGK_WeatherMeasurements
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("the secret that needs to beat least 16 characeters long for HmacSha256")),
                     ValidateLifetime = true, //validate the expiration and not before values
-                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration
+                    ClockSkew = TimeSpan.FromHours(24) //5 minute tolerance for the expiration
                 };
             });
 
             services.AddCors();
             services.AddSignalR();
-           
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
