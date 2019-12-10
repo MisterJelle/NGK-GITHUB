@@ -1,0 +1,58 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-3">Select start date:</div>
+        <input type="date" id="startDate" name="StartDate"
+               value="yy/mm/dd"
+               min="18-01-01" max="20-01-01" />
+
+        <div class="col-3">Select specific date:</div>
+
+        <input type="date" id="date" name="specific-date"
+               value="yy/mm/dd"
+               min="18-01-01" max="20-01-01" />
+    </div>
+    <div class="row">
+        <div class="col-3">Select end date:</div>
+        <input type="date" id="endDate" name="EndDate"
+               value="yy/mm/dd"
+               min="18-01-01" max="20-01-01" />
+    </div>
+    
+  </div>
+<div class="row">&nbsp;</div>
+<div class="row">
+    <div class="col-5" align="center">
+        <input type="button" id="getMeasurements" value="Get weather measurements" />
+    </div>
+    <div class="col-5" align="center">
+        <input type="button" id="getSpecific" value="Get specific measurement" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <h3>Measurements:</h3>
+        <ul id="Measurementlist"></ul>
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <h3>Live Update with 5 latest reports:</h3>
+        <ul id="messagesList"></ul>
+    </div>
+</div>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
