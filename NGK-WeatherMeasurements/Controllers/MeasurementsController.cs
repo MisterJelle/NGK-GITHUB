@@ -21,9 +21,9 @@ namespace NGK_WeatherMeasurements.Controllers
     public class MeasurementsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IHubContext<MeasurementHub> _measurementHub;
+        private readonly MeasurementHub _measurementHub;
 
-        public MeasurementsController(ApplicationDbContext context, IHubContext<MeasurementHub> measurementHub)
+        public MeasurementsController(ApplicationDbContext context, MeasurementHub measurementHub)
         {
             _measurementHub = measurementHub;
             _context = context;
