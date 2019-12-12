@@ -23,9 +23,14 @@ namespace NGK_WeatherMeasurements.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IHubContext<MeasurementHub> _measurementHub;
 
-        public MeasurementsController(ApplicationDbContext context, IHubContext<MeasurementHub> measurementHub)
+        //public MeasurementsController(ApplicationDbContext context, IHubContext<MeasurementHub> measurementHub)
+        //{
+        //    _measurementHub = measurementHub;
+        //    _context = context;
+        //}
+
+        public MeasurementsController(ApplicationDbContext context)
         {
-            _measurementHub = measurementHub;
             _context = context;
         }
 
@@ -93,7 +98,7 @@ namespace NGK_WeatherMeasurements.Controllers
             //location[0].MeasurementsList.Add(measurement);
             //_context.Locations.Update(location[0]);
             await _context.SaveChangesAsync();
-            await _measurementHub.Clients.All.SendAsync("SendMeasurement");
+            //await _measurementHub.Clients.All.SendAsync("SendMeasurement");
             return CreatedAtAction("GetMeasurements", new { id = measurement.MeasurementID }, measurement);
         }
 
@@ -144,6 +149,7 @@ namespace NGK_WeatherMeasurements.Controllers
             DateTime obj1 =  DateTime.ParseExact(startDate, "yy-MM-dd", CultureInfo.InvariantCulture);
             DateTime obj2 = DateTime.ParseExact(endDate, "yy-MM-dd", CultureInfo.InvariantCulture);
 
+
             var measurementList = await _context.Measurements.Where(m => m.Date >= obj1 && m.Date <= obj2).ToListAsync();
 
             if (measurementList == null)
@@ -156,11 +162,13 @@ namespace NGK_WeatherMeasurements.Controllers
 
         [HttpGet("DateSpecific/{date}")]
         [AllowAnonymous]
-        public async Task<ActionResult<List<Measurement>>> GetDateSpecificMeasurement(string dateSpecific)
+        public async Task<ActionResult<List<Measurement>>> GetDateSpecificMeasurement(DateTime date)
+        
         {
-            var date = DateTime.ParseExact(dateSpecific, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            //var date = DateTime.ParseExact(dateSpecific, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-            var measurement = await _context.Measurements.Where(m => m.Date.ToString() == dateSpecific).ToListAsync();
+
+            var measurement = await _context.Measurements.Where(m => m.Date == date).ToListAsync();
 
             if (measurement == null)
             {

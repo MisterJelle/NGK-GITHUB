@@ -47,7 +47,8 @@ connection.on("SendMeasurement", function () {
 
 document.getElementById("getSpecific").addEventListener("click", function (event) {
     var date = document.getElementById("specific").value;
-    date = date.substring(2);
+    
+    //date = date.substring(2);
 
     const url = 'https://localhost:44318/api/Measurements/DateSpecific/' + date;
     var li = document.createElement("li");

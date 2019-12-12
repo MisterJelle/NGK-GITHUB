@@ -56,12 +56,13 @@ namespace NGK_WeatherMeasurements
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("the secret that needs to beat least 16 characeters long for HmacSha256")),
                     ValidateLifetime = true, //validate the expiration and not before values
-                    ClockSkew = TimeSpan.FromHours(24) //5 minute tolerance for the expiration
+                    ClockSkew = TimeSpan.FromMinutes(5),
+                    //5 minute tolerance for the expiration
                 };
             });
-
+            
             services.AddCors();
-            services.AddSignalR();
+            //services.AddSignalR();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -101,9 +102,16 @@ namespace NGK_WeatherMeasurements
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<MeasurementHub>("/MeasurementHub");
                 endpoints.MapControllers();
+                //endpoints.MapHub<MeasurementHub>("/MeasurementHub");
             });
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id=}");
+            //});
         }
     }
 }

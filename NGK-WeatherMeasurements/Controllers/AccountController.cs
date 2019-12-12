@@ -79,8 +79,8 @@ namespace NGK_WeatherMeasurements.Controllers
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, username),
-                new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
-                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
+                new Claim(JwtRegisteredClaimNames.Nbf, DateTimeOffset.Now.ToUnixTimeSeconds().ToString()),
+                new Claim(JwtRegisteredClaimNames.Exp, DateTimeOffset.Now.AddDays(1).ToUnixTimeSeconds().ToString()),
             };
 
             var token = new JwtSecurityToken(

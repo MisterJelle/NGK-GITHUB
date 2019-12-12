@@ -77,6 +77,7 @@ namespace NGK_WeatherMeasurements.Controllers
             return NoContent();
         }
 
+        
         // POST: api/Locations
         [HttpPost]
         public async Task<ActionResult<Location>> PostLocation(Location location)
